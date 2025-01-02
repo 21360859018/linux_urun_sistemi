@@ -23,13 +23,13 @@ form=$(zenity --forms --title="Ürün ekle" \
 
 if [[ $? -eq 0 ]]; then
   IFS="|" read -r ad stok fiyat kategori <<< "$form"
-  if [[ -z "$ad" || -z "$stok" || -z "$fiyat" || -z "$kategori" ]] then
+  if [[ -z "$ad" || -z "$stok" || -z "$fiyat" || -z "$kategori" ]] then  #boş alan olup olmadığının kontrolü
     log_error "Boş alan bırakılmamalıdır."
     zenity --error--text="boş alan bırakmayınız."
-  elif [[ ! "$stok" =~ ^[0-9]+$ || ! "$fiyat" =~ ^[0-9]+(\.[0-9]{1,2})?$ ]]; then
+  elif [[ ! "$stok" =~ ^[0-9]+$ || ! "$fiyat" =~ ^[0-9]+(\.[0-9]{1,2})?$ ]]; then #Geçersiz stok veya fiyat 
     log_error "stok ve fiyat pozitif olmalıdır."
     zenity --error --text="stok ve fiyat pozitif olmalı"
-    elif grep -q "^.*,$ad,.*" depo.csv; then
+    elif grep -q "^.*,$ad,.*" depo.csv; then    #aynı isimde ürünün olup olmadığının kontrolü
       log_error "Aynı isimde ürün zaten mevcut: $ad"
       zenity --error --text="Bu isimde bir ürün zaten mevcut. Ürün eklenemedi."
   else  
